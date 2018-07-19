@@ -1,21 +1,23 @@
 import boto3
 import os
 
+
+# client = boto3.client('ec2',region_name='ap-northeast-2')
 ec2 = boto3.client('ec2')
 
 def lambda_handler(event, context):
     regions = ec2.describe_regions()
     
-    for regionName in regions:
+    for regionName in regions['Regions']:
         
-        region = regionName
+        region = regionName['RegionName']
         client = boto3.client('ec2',region_name=region)
         
         print '***************************************'
         print 'Region:', region
         
         response = client.describe_internet_gateways()
-
+        # print 'IGW here'
         try:
             # print response['InternetGateways'][0]['InternetGatewayId']
             igw = response['InternetGateways'][0]['InternetGatewayId']
@@ -46,43 +48,36 @@ def lambda_handler(event, context):
             print 'No IGW found'
             
         response = client.describe_subnets()
-
-        try:
-            for subnets in response['Subnets']:
-                subnet = subnets['SubnetId']
-                
-                print '\nSubnet Id:', subnet
-                
-                delSubnet = client.delete_subnet(
-                    SubnetId=str(subnet),
-                    DryRun=False
-                )
-                
-                print 'Subnet deleted successfully'
-        except:
-            print 'No subnet found'
+        print '\nSubnets found :',len(response['Subnets'])
+        
+        for subnets in response['Subnets']:
+            subnet = subnets['SubnetId']
+            print 'Subnet Id:', subnet
             
-        response = client.describe_vpcs()
-
-        try:
-            VPC = response['Vpcs'][0]['VpcId']
-            
-            if str(VPC) != str(vpc):
-                vpc = VPC
-                print '\nVPC Id:',vpc
-            else:
-                print '\nVPC Id:',vpc
-                
-            response = client.delete_vpc(
-                VpcId=str(vpc),
+            delSubnet = client.delete_subnet(
+                SubnetId=str(subnet),
                 DryRun=False
             )
-            print '\nVPC deleted successfully'
+            
+            print 'Subnet deleted successfully'
+                
+        
+        response = client.describe_vpcs()
+        # print 'VPC here'
+        try:
+            VPC = response['Vpcs'][0]['VpcId']
+            print '\nVPC Id:',VPC
+                
+            response = client.delete_vpc(
+                VpcId=str(VPC),
+                DryRun=False
+            )
+            print 'VPC deleted successfully'
         except:
             print '\nNo VPC found'
             
         response1 = client.describe_dhcp_options()
-
+        # print 'DHCP here'
         try:
             dhcp = response1['DhcpOptions'][0]['DhcpOptionsId']
             print '\nDHCP Options Id:',dhcp
@@ -94,6 +89,6 @@ def lambda_handler(event, context):
             
             print 'DHCP options deleted successfully'
         except:
-                print '\nNo DHCP options found'
+            print '\nNo DHCP options found'
                             
     # print 'All default resources deleted successfully'
