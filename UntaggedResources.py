@@ -25,7 +25,7 @@ def lambda_handler(event, context):
                         pass
                     
             print 'Found Tags :',truetags
-            print 'Not Found Tags :',list(set(TAG)-set(truetags))
+            print 'Tags not found:',list(set(TAG)-set(truetags))
             print 'Extra Tags :',list(set(tags)-set(truetags))
             tags=[]
             truetags=[]
