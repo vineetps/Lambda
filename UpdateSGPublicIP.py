@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     SGid = os.environ['SecurityGroupId']
     
     if SGid == '':
-        response = client.describe_security_groups(GroupIds=['sg-08e28a855461268a9'])
+        response = client.describe_security_groups()
         
         for sgId in response['SecurityGroups']:
             
