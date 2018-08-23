@@ -87,4 +87,4 @@ def lambda_handler(event, context):
             print 'No rule found in Security Group (',SGid,')'
             
     print '\nTotal number of Security Groups found open to the world :',len(SGID),'\n\nList of Security Groups open to the world :\n',SGID
-    # return len(SGID)
+    return SGID
