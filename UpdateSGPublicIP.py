@@ -9,80 +9,148 @@ def lambda_handler(event, context):
     SGid = os.environ['SecurityGroupId']
     
     if SGid == '':
-        response = client.describe_security_groups()
-        
+        response = client.describe_security_groups(Filters=[
+            {
+                'Name': 'ip-permission.cidr',
+                'Values': [
+                '0.0.0.0/0',
+            ]
+            },
+         ])
         for sgId in response['SecurityGroups']:
-            
-            secgrpID = sgId['GroupId']
-            
+            SGid = sgId['GroupId']
+            SGID.append(sgId['GroupId'])
             try:
-                ipProtocol = sgId['IpPermissions'][0]['IpProtocol']
-                fromPort = sgId['IpPermissions'][0]['FromPort']
-                toPort = sgId['IpPermissions'][0]['ToPort']
-                SGID.append(sgId['GroupId'])
-                
-                
-                response = client.revoke_security_group_ingress(
-                    GroupId=secgrpID,
-                    CidrIp='0.0.0.0/0',
-                    IpProtocol=ipProtocol,
-                    FromPort = fromPort,
-                    ToPort = toPort
-                    )
-                response = client.authorize_security_group_ingress(
-                    GroupId=secgrpID,
-                    IpPermissions=[
-                        {
-                            'FromPort': fromPort,
-                            'IpProtocol': ipProtocol,
-                            'IpRanges': [
-                                {
-                                    'CidrIp': '0.0.0.0/32',
-                                    'Description': 'Open to Public'
-                                }
-                            ],
-                            'ToPort': toPort
-                        }
-                    ]
-                )
-                
+                for sgVal in sgId['IpPermissions']:
+                    if sgVal['IpRanges'][0]['CidrIp'] == '0.0.0.0/0':
+                        try:
+                            ipProtocol = sgVal['IpProtocol']
+                            fromPort = sgVal['FromPort']
+                            toPort = sgVal['ToPort']
+                            
+                            response = client.revoke_security_group_ingress(
+                                GroupId=SGid,
+                                CidrIp='0.0.0.0/0',
+                                IpProtocol=ipProtocol,
+                                FromPort = fromPort,
+                                ToPort = toPort
+                            )
+                            
+                            response = client.authorize_security_group_ingress(
+                                GroupId=SGid,
+                                IpPermissions=[
+                                    {
+                                        'FromPort': fromPort,
+                                        'IpProtocol': ipProtocol,
+                                        'IpRanges': [
+                                            {
+                                                'CidrIp': '0.0.0.0/32',
+                                                'Description': 'Open to Public'
+                                            }
+                                        ],
+                                        'ToPort': toPort
+                                    }
+                                ]
+                            )
+                        
+                        except:
+                            ipProtocol = sgVal['IpProtocol']
+                            
+                            response = client.revoke_security_group_ingress(
+                                GroupId=SGid,
+                                CidrIp='0.0.0.0/0',
+                                IpProtocol=ipProtocol
+                            )
+                        
+                            response = client.authorize_security_group_ingress(
+                                GroupId=SGid,
+                                IpPermissions=[
+                                    {
+                                        'IpProtocol': ipProtocol,
+                                        'IpRanges': [
+                                            {
+                                                'CidrIp': '0.0.0.0/32',
+                                                'Description': 'Open to Public'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            )
+                        
+                    else:
+                        pass
             except:
-                print 'No rule found in Security Group (',secgrpID,')'
+                print 'No rule found in Security Group (',SGid,')'
     
     else:
         try:
-            response = client.describe_security_groups(GroupIds=[SGid])
+            response = client.describe_security_groups(GroupIds=[SGid],Filters=[
+            {
+                'Name': 'ip-permission.cidr',
+                'Values': [
+                '0.0.0.0/0',
+            ]
+            },
+         ])
 
-            ipProtocol = response['SecurityGroups'][0]['IpPermissions'][0]['IpProtocol']
-            fromPort = response['SecurityGroups'][0]['IpPermissions'][0]['FromPort']
-            toPort = response['SecurityGroups'][0]['IpPermissions'][0]['ToPort']
-            
-            response = client.revoke_security_group_ingress(
-                GroupId=SGid,
-                CidrIp='0.0.0.0/0',
-                IpProtocol=ipProtocol,
-                FromPort = fromPort,
-                ToPort = toPort
-            )
-            
-            response = client.authorize_security_group_ingress(
-                GroupId=SGid,
-                IpPermissions=[
-                    {
-                        'FromPort': fromPort,
-                        'IpProtocol': ipProtocol,
-                        'IpRanges': [
-                            {
-                                'CidrIp': '0.0.0.0/32',
-                                'Description': 'Open to Public'
-                            }
-                        ],
-                        'ToPort': toPort
-                    }
-                ]
-            )
-            
-            SGID.append(SGid)
+            for sgVal in response['SecurityGroups'][0]['IpPermissions']:
+                if sgVal['IpRanges'][0]['CidrIp'] == '0.0.0.0/0':
+                    try:
+                        ipProtocol = sgVal['IpProtocol']
+                        fromPort = sgVal['FromPort']
+                        toPort = sgVal['ToPort']
+                        
+                        response = client.revoke_security_group_ingress(
+                            GroupId=SGid,
+                            CidrIp='0.0.0.0/0',
+                            IpProtocol=ipProtocol,
+                            FromPort = fromPort,
+                            ToPort = toPort
+                        )
+                        
+                        response = client.authorize_security_group_ingress(
+                            GroupId=SGid,
+                            IpPermissions=[
+                                {
+                                    'FromPort': fromPort,
+                                    'IpProtocol': ipProtocol,
+                                    'IpRanges': [
+                                        {
+                                            'CidrIp': '0.0.0.0/32',
+                                            'Description': 'Open to Public'
+                                        }
+                                    ],
+                                    'ToPort': toPort
+                                }
+                            ]
+                        )
+                    
+                    except:
+                        ipProtocol = sgVal['IpProtocol']
+                        
+                        response = client.revoke_security_group_ingress(
+                            GroupId=SGid,
+                            CidrIp='0.0.0.0/0',
+                            IpProtocol=ipProtocol
+                        )
+                    
+                        response = client.authorize_security_group_ingress(
+                            GroupId=SGid,
+                            IpPermissions=[
+                                {
+                                    'IpProtocol': ipProtocol,
+                                    'IpRanges': [
+                                        {
+                                            'CidrIp': '0.0.0.0/32',
+                                            'Description': 'Open to Public'
+                                        }
+                                    ]
+                                }
+                            ]
+                        )
+                    SGID.append(SGid)
+                else:
+                    pass
         except:
             print 'No rule found in Security Group (',SGid,')'
             
