@@ -174,6 +174,7 @@ def lambda_handler(event, context):
                 
         else:
             for SGid in SGids:
+                SGid = SGid.strip()
                 response = client.describe_security_groups(GroupIds=[SGid],
                         Filters=[
                         {
