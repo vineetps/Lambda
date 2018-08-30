@@ -88,10 +88,12 @@ def lambda_handler(event, context):
                                     )
                                 except:
                                     pass
-        
                             else:
                                 pass
-        
+                        except:
+                            print 'Error with All Traffic rules'
+                            
+                        try:    
                             if sgVal['IpRanges'][0]['CidrIp'] == '0.0.0.0/0' and sgVal['FromPort'] != 80 and sgVal['FromPort'] != 443:
                                 ipProtocol = sgVal['IpProtocol']
                                 fromPort = sgVal['FromPort']
@@ -124,7 +126,10 @@ def lambda_handler(event, context):
         
                             else:
                                 pass
-        
+                        except:
+                            print 'Ipv4 rules not found in ',SGid
+                            
+                        try:    
                             if sgVal['Ipv6Ranges'][0]['CidrIpv6'] == '::/0' and sgVal['FromPort'] != 80 and sgVal['FromPort'] != 443:
                                 ipProtocol = sgVal['IpProtocol']
                                 fromPort = sgVal['FromPort']
@@ -164,9 +169,8 @@ def lambda_handler(event, context):
                                 )
                             else:
                                 pass
-    
                         except:
-                            pass
+                            print 'Ipv6 rules not found in ',SGid
     
                     SGID.append(SGid)    
         
@@ -249,7 +253,10 @@ def lambda_handler(event, context):
                                     pass
                             else:
                                 pass
+                        except:
+                            print 'Error with All Traffic rules'
                         
+                        try:    
                             if sgVal['IpRanges'][0]['CidrIp'] == '0.0.0.0/0' and sgVal['FromPort'] != 80 and sgVal['FromPort'] != 443:
                                 ipProtocol = sgVal['IpProtocol']
                                 fromPort = sgVal['FromPort']
@@ -281,7 +288,10 @@ def lambda_handler(event, context):
                                 )
                             else:
                                 pass
-                        
+                        except:
+                            print 'Ipv4 rules not found in ',SGid
+                            
+                        try:    
                             if sgVal['Ipv6Ranges'][0]['CidrIpv6'] == '::/0' and sgVal['FromPort'] != 80 and sgVal['FromPort'] != 443:
                                 ipProtocol = sgVal['IpProtocol']
                                 fromPort = sgVal['FromPort']
@@ -322,7 +332,7 @@ def lambda_handler(event, context):
                             else:
                                 pass
                         except:
-                            pass
+                            print 'Ipv6 rules not found in ',SGid
                     
                     SGID.append(SGid)    
                 except:
