@@ -11,7 +11,8 @@ def lambda_handler(event, context):
         SGID = []
         SGids = os.environ['SecurityGroupId'].split(",")
         
-        if SGids == '':
+        if ''.join(SGids) == '':
+            
             response = client.describe_security_groups(Filters=[
                 {
                         'Name': 'ip-permission.ipv6-cidr',
@@ -21,7 +22,7 @@ def lambda_handler(event, context):
                     }
                 ]
             )
-             
+            
             for sgId in response['SecurityGroups']:
                 SGid = sgId['GroupId']
 
@@ -31,7 +32,7 @@ def lambda_handler(event, context):
                         try:
                             if sgVal['IpProtocol'] == '-1':
                                 ipProtocol = sgVal['IpProtocol']
-
+    
                                 try:    
                                     response = client.revoke_security_group_ingress(
                                         GroupId=SGid,
@@ -55,7 +56,7 @@ def lambda_handler(event, context):
                                     )
                                 except:
                                     pass
-
+    
                                 try:
                                     response = client.revoke_security_group_ingress(
                                             GroupId=SGid,
@@ -87,10 +88,10 @@ def lambda_handler(event, context):
                                     )
                                 except:
                                     pass
-
+    
                             else:
                                 pass
-
+    
                             if sgVal['IpRanges'][0]['CidrIp'] == '0.0.0.0/0' and sgVal['FromPort'] != 80 and sgVal['FromPort'] != 443:
                                 ipProtocol = sgVal['IpProtocol']
                                 fromPort = sgVal['FromPort']
@@ -120,10 +121,10 @@ def lambda_handler(event, context):
                                         }
                                     ]
                                 )
-
+    
                             else:
                                 pass
-
+    
                             if sgVal['Ipv6Ranges'][0]['CidrIpv6'] == '::/0' and sgVal['FromPort'] != 80 and sgVal['FromPort'] != 443:
                                 ipProtocol = sgVal['IpProtocol']
                                 fromPort = sgVal['FromPort']
@@ -163,12 +164,12 @@ def lambda_handler(event, context):
                                 )
                             else:
                                 pass
-
+    
                         except:
                             pass
-
-                    SGID.append(response['SecurityGroups'][0]['GroupId'])    
-
+    
+                    SGID.append(SGid)    
+    
                 except:
                     print SGid,': Not open to the world'
                 
