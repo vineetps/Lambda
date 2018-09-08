@@ -1,6 +1,4 @@
 import boto3
-import json
-import datetime
 
 client = boto3.client('ec2')
 sns = boto3.client('sns')
@@ -29,8 +27,8 @@ def lambda_handler(event, context):
             for tag in i['Instances'][0]['Tags']:
                 tags.append(tag['Key'])
                     
-                if tag['Key'] == 'AutoTag_Creator':
-                    emailId = str(tag['Value']).split('/')[-1]
+                if tag['Key'] == 'requester':
+                    requester = str(tag['Value'])
                 
                 for i in range(len(TAG)):
                     if TAG[i] in tag['Key']:
@@ -45,7 +43,7 @@ def lambda_handler(event, context):
             tags=[]
             truetags=[]
             if len(tagValue) != 0 or len(notFoundTag) != 0:
-                msg.append('Creator: '+str(emailId))
+                msg.append('Creator: '+str(requester))
                 msg.append('Instance Id: '+str(Inst))
                 
                 if len(tagValue) != 0:
@@ -54,15 +52,6 @@ def lambda_handler(event, context):
                 if len(notFoundTag) != 0:
                     msg.append('Tags not found: '+str(notFoundTag))
                     
-                try:
-                    response = client.stop_instances(
-                        InstanceIds=[
-                            Inst,
-                        ],
-                        Force=True
-                    )  
-                except:
-                    pass
                 msg.append('\n')
             else:
                 pass
@@ -71,19 +60,17 @@ def lambda_handler(event, context):
             msg.append('No Tag found for Instance: '+Inst+'\n')
     
     msg = '\n'.join(msg)
-    message = 'Hi team,\nThis is a gentle reminder!\n\nThe tag-value of below mentioned mandatory tag-keys were not found in the AWS resources. \nPlease update them asap.\n\n\n'+str(msg)+'\n\nVersion 2.0\nThis version will force stop Instances if mandatory tags are not found or tag-values left blank.'
+    message = 'Hi team,\nThis is a gentle reminder!\n\nThe tag-value of below mentioned mandatory tag-keys were not found in the AWS resources. \nPlease update them asap.\n\n\n'+str(msg)'
     
     if ''.join(msg) != '':
         try:
             print message
-            if str(event['time'])[11:-7] == '14':
-                response = sns.publish(
-                    TargetArn='<<arnSNS>>',
-                    Message=message,
-                    Subject='Alert! Untagged Resources found'
-                )
-            else:
-                pass
+            
+            response = sns.publish(
+                TargetArn='arn',
+                Message=message,
+                Subject='Alert! Untagged Resources found'
+            )
         except:
             print '*Code ran manually*'
     else:
