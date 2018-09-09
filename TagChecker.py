@@ -1,6 +1,4 @@
 import boto3
-import json
-import datetime
 
 client = boto3.client('ec2')
 sns = boto3.client('sns')
