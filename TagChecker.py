@@ -12,6 +12,7 @@ def lambda_handler(event, context):
     truetags=[]
     tagValue=[]
     msg=[]
+    requester=''
 
     response = client.describe_instances(Filters=[
         {
