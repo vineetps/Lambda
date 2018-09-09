@@ -220,7 +220,7 @@ def lambda_handler(event, context):
             print message
             
             response = sns.publish(
-                TargetArn='arn:aws:sns:eu-west-1:279617892825:UntagRes',
+                TargetArn='arn',
                 Message=message,
                 Subject='Alert! Untagged Resources found'
             )
