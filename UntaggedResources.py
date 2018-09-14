@@ -41,7 +41,7 @@ def lambda_handler(event, context):
         try:
             for tag in i['Instances'][0]['Tags']:
                 #checking if tag-key equals requester; if yes, saving that to a var
-                if tag['Key'] == 'requester':
+                if tag['Key'] == 'Requester':
                     requester = str(tag['Value'])
                 
                 #checking mandatory tag-key and tag-value in the instance tags
