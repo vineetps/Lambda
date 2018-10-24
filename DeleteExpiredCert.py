@@ -19,6 +19,8 @@ def lambda_handler(event, context):
         if DesCert['Certificate']['Status'] == 'EXPIRED' and DesCert['Certificate']['InUseBy'] == []:
             length.append(CertificateDomain)
             
+            // below API is for delete certificate
+            // comment below 3 lines to not delete the ACM Certs
             delCert = client.delete_certificate(
                 CertificateArn=CertificateArn
             )
