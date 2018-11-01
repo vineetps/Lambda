@@ -35,8 +35,9 @@ def lambda_handler(event, context):
     for iamCert in response['ServerCertificateMetadataList']:
         iamCertName = iamCert['ServerCertificateName']
         iamCertExpiration = iamCert['Expiration']
-
-        if str(iamCertExpiration) < str(datetime.datetime.now()):
+        path = iamCert['Path']
+        
+        if str(iamCertExpiration) < str(datetime.datetime.now()) and str(path) == '/':
             # below API is for delete certificate
 
 
