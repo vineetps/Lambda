@@ -6,6 +6,7 @@ s3 = boto3.client('s3')
 cfn = boto3.client('cloudformation')
 
 def lambda_handler(event, context):
+ 
     TAG=['Business Unit','Cost Centre','Name']
 
     tags=[]
@@ -50,10 +51,166 @@ def lambda_handler(event, context):
                 
                 if len(tagValue) != 0:
                     msg.append('No values found for Tag: '+str(tagValue))
+                    
+                    # replace the names with the IAM User name of the same
+                    if requester == 'Rejith' or requester == 'Larry' or requester == 'Lucas':
+                        if tagValue == 'AppID':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'SYSID-00611'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'Environment':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'Dev'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'Criticality':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'Tier3'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'Support':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'DL-DigitalDocker@citizensbank.com'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'BusinessUnit':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': '66201'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'CostCenter':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': '23404'
+                                    }
+                                ]
+                            )
+                        else:
+                            pass
+                    elif requester == 'LInda' or requester == 'Raul' or requester == 'John' or requester == 'Hanish':
+                        if tagValue == 'AppID':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'SYSID-05602'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'Environment':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'Dev'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'Criticality':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'Tier3'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'Support':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': 'CTP'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'BusinessUnit':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': '51042'
+                                    }
+                                ]
+                            )
+                        elif tagValue == 'CostCenter':
+                            response = client.create_tags(
+                                Resources=[
+                                    Inst,
+                                ],
+                                Tags=[
+                                    {
+                                        'Key': tagValue,
+                                        'Value': '22503'
+                                    }
+                                ]
+                            )
+                        else:
+                            pass
+                    else:
+                        pass
                 
                 if len(notFoundTag) != 0:
                     msg.append('Tags not found: '+str(notFoundTag))
                     
+                    for tags in notFoundTag:
+                        print tags
                 msg.append('\n')
             else:
                 pass
@@ -84,6 +241,160 @@ def lambda_handler(event, context):
             
             if len(tagValue) != 0:
                 msg.append('No values found for Tag: '+str(tagValue))
+                
+                # replace the names with the IAM User name of the same
+                if requester == 'Rejith' or requester == 'Larry' or requester == 'Lucas':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-00611'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'DL-DigitalDocker@citizensbank.com'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '66201'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '23404'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                elif requester == 'LInda' or requester == 'Raul' or requester == 'John' or requester == 'Hanish':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-05602'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'CTP'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '51042'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '22503'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                else:
+                    pass
             
             if len(notFoundTag) != 0:
                 msg.append('Tags not found: '+str(notFoundTag))
@@ -113,7 +424,160 @@ def lambda_handler(event, context):
             
             if len(tagValue) != 0:
                 msg.append('No values found for Tag: '+str(tagValue))
-            
+                
+                # replace the names with the IAM User name of the same
+                if requester == 'Rejith' or requester == 'Larry' or requester == 'Lucas':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-00611'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'DL-DigitalDocker@citizensbank.com'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '66201'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '23404'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                elif requester == 'LInda' or requester == 'Raul' or requester == 'John' or requester == 'Hanish':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-05602'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'CTP'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '51042'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '22503'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                else:
+                    pass
             if len(notFoundTag) != 0:
                 msg.append('Tags not found: '+str(notFoundTag))
             
@@ -140,7 +604,161 @@ def lambda_handler(event, context):
             
             if len(tagValue) != 0:
                 msg.append('No values found for Tag: '+str(tagValue))
-            
+                
+                
+                # replace the names with the IAM User name of the same
+                if requester == 'Rejith' or requester == 'Larry' or requester == 'Lucas':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-00611'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'DL-DigitalDocker@citizensbank.com'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '66201'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '23404'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                elif requester == 'LInda' or requester == 'Raul' or requester == 'John' or requester == 'Hanish':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-05602'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'CTP'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '51042'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '22503'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                else:
+                    pass
             if len(notFoundTag) != 0:
                 msg.append('Tags not found: '+str(notFoundTag))
             
@@ -173,7 +791,160 @@ def lambda_handler(event, context):
                     
                     if len(tagValue) != 0:
                         msg.append('No values found for Tag: '+str(tagValue))
-                    
+                        
+                        # replace the names with the IAM User name of the same
+                if requester == 'Rejith' or requester == 'Larry' or requester == 'Lucas':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-00611'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'DL-DigitalDocker@citizensbank.com'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '66201'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '23404'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                elif requester == 'LInda' or requester == 'Raul' or requester == 'John' or requester == 'Hanish':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-05602'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'CTP'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '51042'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '22503'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                else:
+                    pass
                     if len(notFoundTag) != 0:
                         msg.append('Tags not found: '+str(notFoundTag))
                     
@@ -203,7 +974,160 @@ def lambda_handler(event, context):
             
             if len(tagValue) != 0:
                 msg.append('No values found for Tag: '+str(tagValue))
-            
+                
+                # replace the names with the IAM User name of the same
+                if requester == 'Rejith' or requester == 'Larry' or requester == 'Lucas':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-00611'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'DL-DigitalDocker@citizensbank.com'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '66201'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '23404'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                elif requester == 'LInda' or requester == 'Raul' or requester == 'John' or requester == 'Hanish':
+                    if tagValue == 'AppID':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'SYSID-05602'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Environment':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Dev'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Criticality':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'Tier3'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'Support':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': 'CTP'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'BusinessUnit':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '51042'
+                                }
+                            ]
+                        )
+                    elif tagValue == 'CostCenter':
+                        response = client.create_tags(
+                            Resources=[
+                                Inst,
+                            ],
+                            Tags=[
+                                {
+                                    'Key': tagValue,
+                                    'Value': '22503'
+                                }
+                            ]
+                        )
+                    else:
+                        pass
+                else:
+                    pass
             if len(notFoundTag) != 0:
                 msg.append('Tags not found: '+str(notFoundTag))
             
@@ -215,7 +1139,7 @@ def lambda_handler(event, context):
     
     msg = '\n'.join(msg)
     message = 'Hi team,\nThis is a gentle reminder!\n\nThe tag-value of below mentioned mandatory tag-keys were not found in the AWS resources. \nPlease update them asap.\n\n\n'+str(msg)
-    
+    # print msg
     if ''.join(msg) != '':
         try:
             print message
