@@ -110,10 +110,13 @@ def TagCheck(ResourceTags,ResourceId,TAG,VALUE,msg,CreationTime):
     
     for tag in ResourceTags:
         for i in range(len(TAG)):
-            
             if TAG[i].lower() in (('').join(tag['Key'].split(' '))).lower():
                 BillingIDTag = (('').join(tag['Key'].split(' '))).lower()
-                truetags.append(tag['Key'])
+                if BillingIDTag == 'billingid':
+                    truetags.append('BillingID')
+                else:
+                    truetags.append(tag['Key'])
+                    
                 if tag['Value'] == '':
                     tagValue.append(tag['Key'])
                 if BillingIDTag == 'billingid':
