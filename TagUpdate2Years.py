@@ -110,12 +110,36 @@ def TagCheck(ResourceTags,ResourceId,TAG,VALUE,msg,CreationTime):
     
     for tag in ResourceTags:
         for i in range(len(TAG)):
-            if TAG[i] in tag['Key']:
+            if TAG[i].lower() in tag['Key'].lower():
                 truetags.append(tag['Key'])
                 if tag['Value'] == '':
                     tagValue.append(tag['Key'])
-                elif tag['Key'] == 'BillingID' and tag['Value'] not in VALUE:
-                    msg.append('Invalid tag-value on tag "BillingID": '+ResourceId)
+                if tag['Key'].lower() == 'billingid':
+                    try:
+                        value = tag['Value']
+                        if value not in VALUE:
+                            msg.append('Invalid tag-value on tag "BillingID": '+ResourceId)
+                    except:
+                        value = ''
+                    finally:
+                        response = client.delete_tags(
+                            Resources=[ResourceId],
+                            Tags=[
+                                {
+                                    'Key': tag['Key']
+                                }
+                            ]
+                        )
+                        response = client.create_tags(
+                            Resources=[ResourceId],
+                            Tags=[
+                                {
+                                    'Key': 'BillingID',
+                                    'Value': value
+                                }
+                            ]
+                        ) 
+                    
                         
     notFoundTag = list(set(TAG)-set(truetags))
     truetags=[]
