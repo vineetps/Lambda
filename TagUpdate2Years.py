@@ -7,7 +7,7 @@ sns = boto3.client('sns')
 
 
 def lambda_handler(event, context):
- 
+    
     TAG = ['BillingID','Project'] # mandatory tags
     VALUE = ['ServiceA','ServiceB','ServiceC'] # mandatory values for tag-key
     msg=[] # message
@@ -110,11 +110,13 @@ def TagCheck(ResourceTags,ResourceId,TAG,VALUE,msg,CreationTime):
     
     for tag in ResourceTags:
         for i in range(len(TAG)):
-            if TAG[i].lower() in tag['Key'].lower():
+            
+            if TAG[i].lower() in (('').join(tag['Key'].split(' '))).lower():
+                BillingIDTag = (('').join(tag['Key'].split(' '))).lower()
                 truetags.append(tag['Key'])
                 if tag['Value'] == '':
                     tagValue.append(tag['Key'])
-                if tag['Key'].lower() == 'billingid':
+                if BillingIDTag == 'billingid':
                     try:
                         value = tag['Value']
                         if value not in VALUE:
