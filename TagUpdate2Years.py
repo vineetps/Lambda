@@ -91,6 +91,7 @@ def lambda_handler(event, context):
 
         CreationTime = volume['CreateTime']
         Message = TagCheck(Message,ResourceTags,ResourceId,TAG,VALUE,msg,CreationTime)
+
     url = UploadS3(Message,bucket)
         
     msg = '\n'.join(msg)
@@ -120,7 +121,7 @@ def TagCheck(Message,ResourceTags,ResourceId,TAG,VALUE,msg,CreationTime):
         for i in range(len(TAG)):
             if TAG[i].lower() in (('').join(tag['Key'].split(' '))).lower():
                 LoweredTag = (('').join(tag['Key'].split(' '))).lower()
-                    
+
                 if tag['Value'] == '':
                     tagValue.append(tag['Key'])
                 if LoweredTag == 'billingid':
@@ -175,32 +176,33 @@ def TagCheck(Message,ResourceTags,ResourceId,TAG,VALUE,msg,CreationTime):
     else:
         pass
     
-
-    today = str(datetime.now())[0:11] # today's date
-    NewDate = str(CreationTime + timedelta(days=730))[0:11] # date after 2 years
-    today = NewDate  # test purpose
-    try:
-        x = notFoundTag[0]
-    except:
-        if NewDate == today:
-            response = client.delete_tags(
-                Resources=[ResourceId],
-                Tags=[
-                    {
-                        'Key': 'Project'
-                    }
-                ]
-            )
-            response = client.create_tags(
-                Resources=[ResourceId],
-                Tags=[
-                    {
-                        'Key': 'Service',
-                        'Value': 'ACL'
-                    }
-                ]
-            )          
-            print 'Tags updated successfully of resource:',ResourceId
+    ## function starts for 2 years tag change
+    
+    # today = str(datetime.now())[0:11] # today's date
+    # NewDate = str(CreationTime + timedelta(days=730))[0:11] # date after 2 years
+    # today = NewDate  # test purpose
+    # try:
+    #     x = notFoundTag[0]
+    # except:
+    #     if NewDate == today:
+    #         response = client.delete_tags(
+    #             Resources=[ResourceId],
+    #             Tags=[
+    #                 {
+    #                     'Key': 'Project'
+    #                 }
+    #             ]
+    #         )
+    #         response = client.create_tags(
+    #             Resources=[ResourceId],
+    #             Tags=[
+    #                 {
+    #                     'Key': 'Service',
+    #                     'Value': 'ACL'
+    #                 }
+    #             ]
+    #         )          
+    #         print 'Tags updated successfully of resource:',ResourceId
     
     CreationTime = str(CreationTime.date())
     Message['value'].append({
